@@ -48,10 +48,14 @@ Esses validators estão em app/validators/user/register
 
 Após configurar os validators, será necessário criar o controller de cadastro
 Este controller terá as rotas 'store', 'show', 'update'
+O controller está em app/controlers/users/register
 
 O front-end começará o cadastro criando um usuário(store), após isso será feita uma requisição para mostrar/verificar a 'chave única'(show) e depois o cadastro será concluído com a atualização dos dados do usuário(update)
 
+as rotas estão em start/routes/users
+
 Rota store:
+Essa rota terá um validator que está em app/validators/user/register/StoreValidator
 Primeiro é pego o 'email' e o 'redirectUrl'(que será o url de redirecionamento que estará no email) da requisição
 Depois é criado um usuário contendo e email e em seguida esse usuário é salvo no banco de dados
 Depois é gerada a 'chave única' do cadastro e o link que será enviado no email
@@ -59,6 +63,25 @@ Para gerar o email será utilizado a 'camada view' do adonis
 Para isso é necessário instalar 'npm i @adonisjs/view'
 Para o envio do email será necessáro instalar 'npm i @adonisjs/mail
 Depois o email é enviado
+
+Rota show (validação da key):
+Nessa rota será feita a validação da 'chave única' utilizada para o cadastro do usuário
+
+Primeiramente é recuperada a 'UserKey' do model 'UserKey' e armazenado em uma constante
+Depois é armazenado o usuário referente à key, éprocurado na banco de dados o primeiro usuário que possui a key que foi gerada.
+
+Rota update:
+Essa rota será responsável em atualizar os dados no usuário que foi criado no banco de dados, agora que a 'key' foi validada, será possível continuar o cadastro informando o restante dos dados necessários.
+Essa rota terá um validator que está em app/validators/user/register/UpdateValidator
+
+Primeiramente será validado o key, name, password vindo da request 
+Depois será validado se a 'key' criada para esse usuário existe e com a key será retornado o usuário em sí.
+Depois é gerado um username randômico
+Depois é mesclado as informações do usuário contidas no banco de dados (que nesse caso é somente o email) com as informações do usuário vindas da requisição
+Depois o usuário atualizado é salvo novamente no banco de dados
+Por último a chave utilizada para validar o cadastro do usuário pe deletada, uma vez que a função dela foi fazer a validação do cadastro
+
+
 
 
 
