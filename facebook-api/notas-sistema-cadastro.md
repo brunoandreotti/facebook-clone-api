@@ -72,14 +72,14 @@ Depois o email é enviado
 Rota show (validação da key):
 Nessa rota será feita a validação da 'chave única' utilizada para o cadastro do usuário
 
-Primeiramente é recuperada a 'UserKey' do model 'UserKey' e armazenado em uma constante
+Primeiramente é recuperada a 'userKey' do model 'UserKey' e armazenado em uma constante
 Depois é armazenado o usuário referente à key, éprocurado na banco de dados o primeiro usuário que possui a key que foi gerada.
 
 Rota update:
 Essa rota será responsável em atualizar os dados no usuário que foi criado no banco de dados, agora que a 'key' foi validada, será possível continuar o cadastro informando o restante dos dados necessários.
 Essa rota terá um validator que está em app/validators/user/register/UpdateValidator
 
-Primeiramente será validado o key, name, password vindo da request 
+Primeiramente será validado a key (deverá ser uma string e existir na tabela 'user_keys', na coluna 'key'), name (deverá ser uma string), password (deverá ser uma string e confirmado) vindo da request 
 Depois será validado se a 'key' criada para esse usuário existe e com a key será retornado o usuário em sí.
 Depois é gerado um username randômico
 Depois é mesclado as informações do usuário contidas no banco de dados (que nesse caso é somente o email) com as informações do usuário vindas da requisição
