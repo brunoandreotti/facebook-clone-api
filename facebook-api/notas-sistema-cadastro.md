@@ -84,7 +84,7 @@ Depois será validado se a 'key' criada para esse usuário existe e com a key se
 Depois é gerado um username randômico
 Depois é mesclado as informações do usuário contidas no banco de dados (que nesse caso é somente o email) com as informações do usuário vindas da requisição
 Depois o usuário atualizado é salvo novamente no banco de dados
-Por último a chave utilizada para validar o cadastro do usuário pe deletada, uma vez que a função dela foi fazer a validação do cadastro
+Por último a chave utilizada para validar o cadastro do usuário é deletada, uma vez que a função dela foi fazer a validação do cadastro
 
 
 

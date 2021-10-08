@@ -31,24 +31,30 @@ export default class UserRegistersController {
   public async show({ params }: HttpContextContract) {
     const userKey = await UserKey.findByOrFail('key', params.key)
 
-    await userKey.load('user')
+    userKey.load('user')
 
     const user = userKey.user
 
     return user
   }
 
-  public async update({ request }: HttpContextContract) {
+  public async update({ request, response }: HttpContextContract) {
     const { key, name, password } = await request.validate(UpdateValidator)
 
     const userKey = await UserKey.findByOrFail('key', key)
 
-    await userKey.load('user')
+    userKey.load('user')
 
     const user = userKey.user
 
-    const username = name.split(' ')[0]
+    const username = name.split(' ')[0].toLowerCase() + new Date().getTime()
 
-    user.merge({ name, password })
+    user.merge({ name, password, username })
+
+    await user.save()
+
+    await userKey.delete()
+
+    return response.ok({ message: 'Usuário criado com sucesso!' })
   }
 }

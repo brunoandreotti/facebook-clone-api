@@ -5,9 +5,7 @@ export default class AuthController {
   public async store({ request, auth }: HttpContextContract) {
     const { email, password } = await request.validate(StoreValidator)
 
-    const token = await auth.attempt(email, password, {
-      expiresIn: '30days',
-    })
+    const token = await auth.attempt(email, password, { expiresIn: '3 days' })
 
     return token
   }
