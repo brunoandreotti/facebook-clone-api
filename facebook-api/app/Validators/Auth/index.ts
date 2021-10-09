@@ -1,1 +1,1 @@
-export * from './StoreValidator'
+export { default as StoreValidator } from './StoreValidator'
