@@ -86,6 +86,9 @@ Depois é mesclado as informações do usuário contidas no banco de dados (que 
 Depois o usuário atualizado é salvo novamente no banco de dados
 Por último a chave utilizada para validar o cadastro do usuário é deletada, uma vez que a função dela foi fazer a validação do cadastro
 
+============================= Aplicando Transaction ====================================
+Transaction serve para evitar que um código seja executado inteiramente caso uma parte do código não funcione
+
 
 
 

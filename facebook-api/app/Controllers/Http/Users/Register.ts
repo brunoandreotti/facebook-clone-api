@@ -3,28 +3,35 @@ import { StoreValidator, UpdateValidator } from 'App/Validators/User/Register/In
 import { User, UserKey } from 'App/Models/Index'
 import faker from 'faker'
 import mail from '@ioc:Adonis/Addons/Mail'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UserRegistersController {
   public async store({ request }: HttpContextContract) {
-    const { email, redirectUrl } = await request.validate(StoreValidator)
+    await Database.transaction(async (trx) => {
+      const { email, redirectUrl } = await request.validate(StoreValidator)
 
-    const user = await User.create({ email })
+      const user = new User()
 
-    await user.save()
+      user.useTransaction(trx)
 
-    const key = faker.datatype.uuid() + user.id
+      user.email = email
 
-    user.related('keys').create({ key })
+      await user.save()
 
-    const link = `${redirectUrl.replace(/\/$/, '')}/${key}`
+      const key = faker.datatype.uuid() + user.id
 
-    //envio do email
+      user.related('keys').create({ key })
 
-    await mail.send((message) => {
-      message.to(email)
-      message.from('contato@teste.com', 'Teste')
-      message.subject('Criação de conta')
-      message.htmlView('emails/register', { link })
+      const link = `${redirectUrl.replace(/\/$/, '')}/${key}`
+
+      //envio do email
+
+      await mail.send((message) => {
+        message.to(email)
+        message.from('contato@teste.com', 'Teste')
+        message.subject('Criação de conta')
+        message.htmlView('emails/register', { link })
+      })
     })
   }
 
