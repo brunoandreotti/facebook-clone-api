@@ -7,3 +7,5 @@ Route.put('/users/register', 'Users/Register.update')
 
 //Recuperação de senha
 Route.post('/users/forgot-password', 'Users/ForgotPasswords.store')
+Route.get('/users/forgot-password/:key', 'Users/ForgotPasswords.show')
+Route.put('/users/forgot-password/', 'Users/ForgotPasswords.update')
